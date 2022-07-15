@@ -7,10 +7,61 @@
     <!--User findById(Integer id);-->
     <select id="findById" resultType="cn.qb.forum.sky.entity.User">
         select
-            id,username,header_url headerUrl
+            id,username,header_url headerUrl,activation_code activationCode,status
         from
             user
         where
             id=#{id}
     </select>
+
+    <!--根据用户名查找用户数据-->
+    <!--User findByUsername(String username);-->
+    <select id="findByUsername" resultType="cn.qb.forum.sky.entity.User">
+        select
+            id,username,header_url headerUrl,activation_code activationCode,status
+        from
+            user
+        where
+            username=#{username}
+    </select>
+
+    <!--根据用户邮箱查找用户数据-->
+    <!--User findByEmail(String email);-->
+    <select id="findByEmail" resultType="cn.qb.forum.sky.entity.User">
+        select
+            id,username,header_url headerUrl,activation_code activationCode,status
+        from
+            user
+        where
+            email=#{email}
+    </select>
+
+    <!--插入一个新用户-->
+    <!--Integer addNew(User user);-->
+    <insert id="addNew" parameterType="cn.qb.forum.sky.entity.User" useGeneratedKeys="true" keyProperty="id">
+        insert into user(
+            username,password,
+            salt,email,
+            type,status,
+            activation_code,header_url,
+            create_time
+        ) values(
+            #{username},#{password},
+            #{salt},#{email},
+            #{type},#{status},
+            #{activationCode},#{headerUrl},
+            #{createTime}
+        )
+    </insert>
+
+    <!--改变用户状态-->
+    <!--Integer changeStatus(Integer userId);-->
+    <update id="changeStatus">
+        update
+            user
+        set
+            status=1
+        where
+            id=#{userId}
+    </update>
 </mapper>
